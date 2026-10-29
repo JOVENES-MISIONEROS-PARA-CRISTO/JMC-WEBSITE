@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-jmc-magenta: #a3098d;
+  --color-jmc-rosa: #c2188b;
+  --color-jmc-morado: #582078;
+  --color-jmc-blanco: #ffffff;
+  --color-jmc-noche: #242124;
+
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Fira Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-float: float 7s ease-in-out infinite;
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body {
+    background: var(--color-jmc-noche);
+    color: var(--color-jmc-blanco);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  ::selection { background: var(--color-jmc-rosa); color: #fff; }
+}
+
+@layer utilities {
+  .bg-jmc-soft {
+    background:
+      linear-gradient(180deg, #c6a0d9 0%, #c6a0d9cc 3%, #c6a0d900 22%, #c6a0d900 78%, #c6a0d9cc 97%, #c6a0d9 100%),
+      radial-gradient(ellipse at 8% 45%, #ab78c7 0%, transparent 60%),
+      radial-gradient(ellipse at 92% 55%, #e49acb 0%, transparent 60%),
+      linear-gradient(180deg, #c6a0d9 0%, #deb1d2 50%, #c6a0d9 100%);
+  }
+  .bg-jmc-soft-reverse {
+    background:
+      linear-gradient(180deg, #c6a0d9 0%, #c6a0d9cc 3%, #c6a0d900 22%, #c6a0d900 78%, #c6a0d9cc 97%, #c6a0d9 100%),
+      radial-gradient(ellipse at 92% 45%, #ab78c7 0%, transparent 60%),
+      radial-gradient(ellipse at 8% 55%, #e49acb 0%, transparent 60%),
+      linear-gradient(180deg, #c6a0d9 0%, #deb1d2 50%, #c6a0d9 100%);
+  }
+  .bg-jmc-gradient {
+    background: linear-gradient(135deg, #582078 0%, #a3098d 55%, #c2188b 100%);
+  }
+  .jmc-hero-fade {
+    background: linear-gradient(to top, #c6a0d9 0%, #c6a0d9f5 10%, #c6a0d9b3 35%, #c6a0d94d 65%, #c6a0d900 100%);
+  }
+  .jmc-join-fade::before,
+  .jmc-join-fade::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    pointer-events: none;
+  }
+  .jmc-join-fade::before {
+    top: 0;
+    height: 16rem;
+    background: linear-gradient(to bottom, #c6a0d9 0%, #c6a0d9f5 10%, #c6a0d9b3 35%, #c6a0d94d 65%, #c6a0d900 100%);
+  }
+  .jmc-join-fade::after {
+    bottom: 0;
+    height: 12rem;
+    background: linear-gradient(to top, #242124 0%, #242124f5 10%, #242124b3 35%, #2421244d 65%, #24212400 100%);
+  }
+  .text-jmc-gradient {
+    background: linear-gradient(90deg, #ffffff 0%, #f3b6e8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
