@@ -1,101 +1,157 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-
-import { Button } from '@/components/ui/button'
+import { Menu, X } from 'lucide-react'
+import { LayoutGroup, motion, useReducedMotion } from 'motion/react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 
 const LINKS = [
-  { href: '#nosotros', label: 'Quiénes somos', icon: 'nosotros' },
-  { href: '#actividades', label: 'Actividades', icon: 'actividades' },
-  { href: '#eventos', label: 'Eventos', icon: 'eventos' },
-  { href: '#galeria', label: 'Galería', icon: 'galeria' },
-  { href: '#contacto', label: 'Contacto', icon: 'contacto' },
+  { href: '#nosotros', label: 'Nosotros' },
+  { href: '#actividades', label: 'Actividades' },
+  { href: '#eventos', label: 'Eventos' },
+  { href: '#galeria', label: 'Galería' },
+  { href: '#contacto', label: 'Contacto' },
+  { href: '#unete', label: 'Únete' },
 ]
 
-function SidebarIcon({ name, className = 'size-5' }: { name: string; className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`inline-block shrink-0 bg-current ${className}`}
-      style={{ mask: `url(/icons/${name}.svg) center / contain no-repeat`, WebkitMask: `url(/icons/${name}.svg) center / contain no-repeat` }}
-    />
-  )
-}
-
-function SidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
-  return (
-    <nav aria-label="Principal" className="flex flex-1 flex-col gap-8">
-      <a href="#inicio" onClick={onNavigate} className="flex items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-jmc-morado" aria-label="JMC, ir al inicio">
-        <img src="/logos/jmc_solo_icono.png" alt="" className="h-28 w-auto" />
-      </a>
-      <ul className="space-y-2">
-        {LINKS.map(({ href, label, icon }) => (
-          <li key={href}>
-            <a href={href} onClick={onNavigate} className="flex items-center gap-3 rounded-2xl px-4 py-3 font-medium text-jmc-noche transition hover:bg-white/30 hover:text-jmc-morado focus-visible:outline-2 focus-visible:outline-jmc-morado">
-              <SidebarIcon name={icon} className="size-5 text-jmc-morado" />
-              {label}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto pt-6">
-        <Button asChild className="w-full">
-          <a href="#unete" onClick={onNavigate}><SidebarIcon name="unete" className="size-4" />¡Únete!</a>
-        </Button>
-      </div>
-    </nav>
-  )
-}
-
-export function Navbar({ sidebarVisible, onToggleSidebar }: { sidebarVisible: boolean; onToggleSidebar: () => void }) {
-  const [abierto, setAbierto] = useState(false)
+export function Navbar() {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState('')
+  const reduceMotion = useReducedMotion()
+  const scrollFrame = useRef(0)
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 1024px)')
-    const closeOnDesktop = () => { if (desktop.matches) setAbierto(false) }
-    desktop.addEventListener('change', closeOnDesktop)
-    return () => desktop.removeEventListener('change', closeOnDesktop)
+    const cancel = () => cancelAnimationFrame(scrollFrame.current)
+    const onKey = (event: KeyboardEvent) => {
+      if (['Escape', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) cancel()
+    }
+    window.addEventListener('wheel', cancel, { passive: true })
+    window.addEventListener('touchstart', cancel, { passive: true })
+    window.addEventListener('keydown', onKey)
+    return () => {
+      cancel()
+      window.removeEventListener('wheel', cancel)
+      window.removeEventListener('touchstart', cancel)
+      window.removeEventListener('keydown', onKey)
+    }
   }, [])
 
+  function navigate(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    const hash = event.currentTarget.hash
+    const target = document.getElementById(hash.slice(1))
+    if (!target) return
+    event.preventDefault()
+    setOpen(false)
+    cancelAnimationFrame(scrollFrame.current)
+    if (window.location.hash !== hash) window.history.pushState(null, '', hash)
+    // Measure after the mobile menu has closed.
+    scrollFrame.current = requestAnimationFrame(() => {
+      const start = window.scrollY
+      const offset = (header.current?.getBoundingClientRect().height ?? 72) + 16
+      const end = Math.max(0, Math.min(start + target.getBoundingClientRect().top - offset, document.documentElement.scrollHeight - window.innerHeight))
+      const duration = reduceMotion ? 0 : 1100
+      const began = performance.now()
+      const step = (now: number) => {
+        const progress = duration ? Math.min((now - began) / duration, 1) : 1
+        const eased = progress < 0.5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2
+        window.scrollTo({ top: start + (end - start) * eased, behavior: 'instant' })
+        if (progress < 1) scrollFrame.current = requestAnimationFrame(step)
+        else {
+          const hadTabIndex = target.hasAttribute('tabindex')
+          if (!hadTabIndex) target.setAttribute('tabindex', '-1')
+          target.focus({ preventScroll: true })
+          if (!hadTabIndex) target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true })
+        }
+      }
+      scrollFrame.current = requestAnimationFrame(step)
+    })
+  }
+
+  useEffect(() => {
+    let frame = 0
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.jmc-content > section[id], .jmc-home footer[id]'))
+    const update = () => {
+      frame = 0
+      setScrolled(window.scrollY > 8)
+      const marker = Math.max(96, window.innerHeight * 0.3)
+      let current = ''
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= marker) current = section.id
+      }
+      // The footer can be too short to reach the marker before the page ends.
+      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        current = sections.at(-1)?.id ?? current
+      }
+      setActive(current)
+    }
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update) }
+    schedule()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
+  }, [])
+  const header = useRef<HTMLElement>(null)
+  const trigger = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const outside = (event: PointerEvent) => {
+      if (!header.current?.contains(event.target as Node)) setOpen(false)
+    }
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); trigger.current?.focus() }
+    }
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const resize = () => { if (desktop.matches) setOpen(false) }
+    desktop.addEventListener('change', resize)
+    document.addEventListener('pointerdown', outside)
+    document.addEventListener('keydown', escape)
+    return () => {
+      desktop.removeEventListener('change', resize)
+      document.removeEventListener('pointerdown', outside)
+      document.removeEventListener('keydown', escape)
+    }
+  }, [open])
+
   return (
-    <>
-      <button
-        type="button"
-        onClick={onToggleSidebar}
-        aria-controls="desktop-sidebar"
-        aria-expanded={sidebarVisible}
-        aria-label={sidebarVisible ? 'Ocultar barra lateral' : 'Mostrar barra lateral'}
-        title={sidebarVisible ? 'Ocultar barra lateral' : 'Mostrar barra lateral'}
-        className={`fixed top-4 z-50 hidden items-center gap-2 rounded-full border border-white/30 bg-[#c6a0d9]/95 p-3 text-jmc-morado shadow-lg backdrop-blur-xl transition-all duration-300 hover:bg-[#dc9bc9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jmc-morado lg:flex ${sidebarVisible ? 'left-44' : 'left-4'}`}
-      >
-        <SidebarIcon name="sidebar_icon" />
-        {!sidebarVisible && <span className="pr-1 text-sm font-semibold">Menú</span>}
-      </button>
-      <aside id="desktop-sidebar" inert={!sidebarVisible} aria-hidden={!sidebarVisible} className={`fixed inset-y-0 left-0 z-40 hidden w-60 flex-col overflow-y-auto border-r border-white/20 bg-gradient-to-b from-[#c6a0d9] via-[#c998d4] to-[#dc9bc9] p-5 pt-20 shadow-xl shadow-jmc-morado/10 transition-transform duration-300 lg:flex ${sidebarVisible ? 'translate-x-0' : '-translate-x-full'}`}>
-        <SidebarLinks />
-      </aside>
-      <Dialog.Root open={abierto} onOpenChange={setAbierto}>
-        <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between bg-[#c6a0d9]/85 px-5 backdrop-blur-xl lg:hidden">
-          <a href="#inicio" aria-label="JMC, ir al inicio">
-            <img src="/logos/jmc_solo_icono.png" alt="JMC" className="h-10 w-auto" />
-          </a>
-          <Dialog.Trigger asChild>
-            <button className="flex items-center gap-2 rounded-full px-4 py-2 font-semibold text-jmc-morado hover:bg-white/20" aria-label="Abrir menú">
-              <SidebarIcon name="sidebar_icon" />Menú
-            </button>
-          </Dialog.Trigger>
-        </header>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-50 bg-jmc-noche/50 backdrop-blur-sm" />
-          <Dialog.Content aria-describedby={undefined} className="fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col overflow-y-auto bg-gradient-to-b from-[#c6a0d9] to-[#dc9bc9] p-6 shadow-2xl">
-            <Dialog.Title className="sr-only">Menú de navegación</Dialog.Title>
-            <Dialog.Close asChild>
-              <button aria-label="Cerrar menú" className="mb-5 self-end rounded-full p-2 text-jmc-morado hover:bg-white/25"><X aria-hidden="true" /></button>
-            </Dialog.Close>
-            <SidebarLinks onNavigate={() => setAbierto(false)} />
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-    </>
+    <header ref={header} className="jmc-topbar" data-scrolled={scrolled} onBlur={(event) => {
+      if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false)
+    }}>
+      <div className="jmc-topbar-inner">
+        <a href="#inicio" className="jmc-topbar-brand" onClick={navigate} aria-label="JMC, ir al inicio">
+          <img src="/logos/jmc_solo_icono.png" alt="" />
+          <span>Jóvenes Misioneros para Cristo</span>
+        </a>
+        <button ref={trigger} type="button" className="jmc-topbar-toggle" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} aria-controls="jmc-topbar-links" onClick={() => setOpen(!open)}>
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+        <nav id="jmc-topbar-links" aria-label="Principal" className="jmc-topbar-links" data-open={open}>
+          <LayoutGroup id="header-navigation">
+            {LINKS.map(({ href, label }) => (
+              <motion.a
+                key={href}
+                href={href}
+                aria-current={active === href.slice(1) ? 'location' : undefined}
+                onClick={navigate}
+                whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+              >
+                {active === href.slice(1) && (
+                  <motion.span
+                    className="jmc-nav-indicator"
+                    aria-hidden="true"
+                    layoutId={reduceMotion ? undefined : 'active-section'}
+                    transition={reduceMotion ? { duration: 0 } : { type: 'tween', duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                )}
+                <span className="jmc-nav-label">{label}</span>
+              </motion.a>
+            ))}
+          </LayoutGroup>
+        </nav>
+      </div>
+    </header>
   )
 }

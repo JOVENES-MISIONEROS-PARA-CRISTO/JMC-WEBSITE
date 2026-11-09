@@ -101,12 +101,12 @@ export const EVENTOS_EJEMPLO: Evento[] = [
  * Galería. Pon tus fotos en `public/galeria/` y agrega `src: '/galeria/nombre.jpg'`.
  * Sin `src` se muestra un recuadro decorativo.
  */
-export type FotoGaleria = { titulo: string; src?: string; alto: 'normal' | 'alto' }
+export type FotoGaleria = { id: string; titulo: string; src?: string; alto: 'normal' | 'alto' }
 export const GALERIA: FotoGaleria[] = [
-  { titulo: 'Retiros', alto: 'alto' },
-  { titulo: 'Cubilete', alto: 'normal' },
-  { titulo: 'Talpa', alto: 'normal' },
-  { titulo: 'Convivencias', alto: 'normal' },
-  { titulo: 'Servicio', alto: 'alto' },
-  { titulo: 'Nuestro grupo', alto: 'normal' },
+  { id: 'retiros', titulo: 'Retiros', alto: 'alto' },
+  { id: 'cubilete', titulo: 'Cubilete', alto: 'normal' },
+  { id: 'talpa', titulo: 'Talpa', alto: 'normal' },
+  { id: 'convivencias', titulo: 'Convivencias', alto: 'normal' },
+  { id: 'servicio', titulo: 'Servicio', alto: 'alto' },
+  { id: 'nuestro-grupo', titulo: 'Nuestro grupo', alto: 'normal' },
 ]

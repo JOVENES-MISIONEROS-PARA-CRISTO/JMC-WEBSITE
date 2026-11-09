@@ -7,6 +7,7 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 export const supabaseListo = Boolean(url && anonKey)
 
 export const supabase = supabaseListo ? createClient(url!, anonKey!) : null
+export const galeriaStorage = supabase?.storage.from('jmc-galeria')
 
 export type Evento = {
   id: string

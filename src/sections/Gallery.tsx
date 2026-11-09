@@ -1,4 +1,6 @@
 import { Camera } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { galeriaStorage } from '@/lib/supabase'
 import { Reveal, SectionTitle } from '@/components/Reveal'
 import { GALERIA } from '@/data/site'
 import { cn } from '@/lib/utils'
@@ -10,12 +12,27 @@ const FONDOS = [
 ]
 
 export function Gallery() {
+  const [urls, setUrls] = useState<Record<string, string>>({})
+  useEffect(() => {
+    const bucket = galeriaStorage
+    if (!bucket) return
+    let activo = true
+    void bucket.list().then(({ data, error }) => {
+      if (!activo || error || !data) return
+      setUrls(Object.fromEntries(data.map(foto => [
+        foto.name,
+        bucket.getPublicUrl(foto.name).data.publicUrl + '?v=' + encodeURIComponent(foto.updated_at ?? ''),
+      ])))
+    })
+    return () => { activo = false }
+  }, [])
+  const fotos = GALERIA.map(f => ({ ...f, src: urls[f.id] ?? f.src }))
   return (
     <section id="galeria" className="bg-jmc-soft-reverse px-5 py-24 text-jmc-noche">
       <div className="mx-auto max-w-6xl">
         <SectionTitle kicker="Recuerdos" title="Galería" subtitle="Momentos que nos han marcado en el camino." />
         <div className="grid auto-rows-[10rem] grid-cols-2 gap-4 md:grid-cols-3 md:auto-rows-[13rem]">
-          {GALERIA.map((f, i) => (
+          {fotos.map((f, i) => (
             <Reveal key={f.titulo} delay={(i % 3) * 0.08} className={cn(f.alto === 'alto' && 'row-span-2')}>
               <figure
                 className={cn(

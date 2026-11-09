@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Navbar } from '@/components/Navbar'
 import { About } from '@/sections/About'
 import { Activities } from '@/sections/Activities'
@@ -9,13 +8,12 @@ import { Hero } from '@/sections/Hero'
 import { Join } from '@/sections/Join'
 
 export default function Home() {
-  const [sidebarVisible, setSidebarVisible] = useState(true)
 
   return (
-    <>
-      <Navbar sidebarVisible={sidebarVisible} onToggleSidebar={() => setSidebarVisible((visible) => !visible)} />
-      <div className={`transition-[padding] duration-300 ${sidebarVisible ? 'lg:pl-60' : 'lg:pl-0'}`}>
-      <main>
+    <div className="jmc-home">
+      <Navbar />
+
+      <main className="jmc-content">
         <Hero />
         <About />
         <Activities />
@@ -24,7 +22,6 @@ export default function Home() {
         <Join />
       </main>
       <Footer />
-      </div>
-    </>
+    </div>
   )
 }

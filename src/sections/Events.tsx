@@ -36,7 +36,7 @@ export function Events() {
     <section id="eventos" className="bg-jmc-soft px-5 py-24 text-jmc-noche">
       <div className="mx-auto max-w-6xl">
         <SectionTitle kicker="Calendario" title="Próximos eventos" subtitle="Apunta las fechas y no te pierdas ninguna." />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
           {eventos.map((e, i) => (
             <Reveal key={e.id} delay={(i % 3) * 0.1}>
               <Card className="h-full border-white/35 bg-white/30 shadow-sm backdrop-blur-md">

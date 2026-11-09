@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
+import { AdminGallery } from '@/components/AdminGallery'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input, Label, Textarea } from '@/components/ui/input'
 import { CATEGORIAS } from '@/data/site'
@@ -137,6 +138,7 @@ function Panel({ session }: { session: Session }) {
     <Shell onSalir={() => supabase?.auth.signOut()}>
       <p className="mb-8 text-white/50">Sesión: {session.user.email}</p>
 
+      <AdminGallery />
       <h2 className="mb-4 text-2xl font-bold">Nuevo evento</h2>
       <Card className="mb-10">
         <CardContent>
