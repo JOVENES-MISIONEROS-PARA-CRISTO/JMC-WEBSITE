@@ -13,7 +13,7 @@ npm run dev
 
 ## Qué editar primero
 - `src/data/site.ts`: horarios de reuniones, WhatsApp, Instagram, Facebook, correo, textos de actividades y galería.
-- En `/admin`, elige un espacio de la galería y publica una foto JPG, PNG o WebP de hasta 5 MB.
+- En `/admin`, elige un espacio de la galería y publica una foto JPG, PNG o WebP de hasta 20 MB. El panel la optimiza antes de subirla y limita el lado más largo a 1600 píxeles.
 - Logos: `src/assets/` (JMC, Ea's y Señor de la Misericordia).
 
 ## Supabase

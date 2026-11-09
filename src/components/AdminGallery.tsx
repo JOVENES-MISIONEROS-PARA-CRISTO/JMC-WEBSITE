@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { GALERIA } from '@/data/site'
 import { galeriaStorage } from '@/lib/supabase'
+import { prepararFoto } from '@/lib/prepararFoto'
 import { Button } from '@/components/ui/button'
 import { Input, Label } from '@/components/ui/input'
 
@@ -14,21 +15,26 @@ export function AdminGallery() {
     const form = event.currentTarget
     const datos = new FormData(form)
     const foto = datos.get('foto')
-    if (!(foto instanceof File) || !['image/jpeg', 'image/png', 'image/webp'].includes(foto.type) || !foto.size || foto.size > 5242880) {
-      setMensaje('Elige una imagen JPG, PNG o WebP de hasta 5 MB.')
+    if (!(foto instanceof File) || !['image/jpeg', 'image/png', 'image/webp'].includes(foto.type) || !foto.size || foto.size > 20 * 1024 * 1024) {
+      setMensaje('Elige una imagen JPG, PNG o WebP de hasta 20 MB.')
       return
     }
     setOcupado(true)
-    setMensaje('')
+    setMensaje('Preparando la foto…')
     try {
-      const { error } = await galeriaStorage.upload(String(datos.get('espacio')), foto, {
-        contentType: foto.type, cacheControl: '0', upsert: true,
+      const imagen = await prepararFoto(foto)
+      setMensaje('Subiendo la foto…')
+      const { error } = await galeriaStorage.upload(String(datos.get('espacio')), imagen, {
+        contentType: imagen.type, cacheControl: '0', upsert: true,
       })
-      if (error) throw error
+      if (error) {
+        setMensaje('No se pudo subir la foto. Revisa la conexión y vuelve a intentarlo.')
+        return
+      }
       form.reset()
       setMensaje('Foto publicada en la galería.')
     } catch {
-      setMensaje('No se pudo publicar la foto. Revisa la conexión y los permisos del bucket.')
+      setMensaje('No se pudo publicar la foto. Comprueba que la imagen se abre correctamente y vuelve a intentarlo.')
     } finally {
       setOcupado(false)
     }
@@ -40,15 +46,15 @@ export function AdminGallery() {
       <form onSubmit={publicar} className="grid gap-4 rounded-2xl border border-white/10 p-5">
         <div>
           <Label htmlFor="espacio">Foto que quieres actualizar</Label>
-          <select className="w-full rounded-2xl bg-jmc-noche p-3" id="espacio" name="espacio">
+          <select disabled={ocupado} className="w-full rounded-2xl bg-jmc-noche p-3" id="espacio" name="espacio">
             {GALERIA.map(f => <option key={f.id} value={f.id}>{f.titulo}</option>)}
           </select>
         </div>
         <div>
-          <Label htmlFor="foto">Imagen JPG, PNG o WebP de hasta 5 MB</Label>
-          <Input id="foto" name="foto" required type="file" accept="image/jpeg,image/png,image/webp" />
+          <Label htmlFor="foto">Imagen JPG, PNG o WebP de hasta 20 MB</Label>
+          <Input disabled={ocupado} id="foto" name="foto" required type="file" accept="image/jpeg,image/png,image/webp" />
         </div>
-        <Button disabled={ocupado} type="submit">{ocupado ? 'Subiendo…' : 'Publicar foto'}</Button>
+        <Button disabled={ocupado} type="submit">Publicar foto</Button>
         <p role="status">{mensaje}</p>
       </form>
     </section>
