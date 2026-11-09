@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Input, Label, Textarea } from '@/components/ui/input'
 import { Reveal } from '@/components/Reveal'
 import { SITIO } from '@/data/site'
-import { supabase } from '@/lib/supabase'
 
 type Estado = 'idle' | 'enviando' | 'ok' | 'error'
 
@@ -27,21 +26,17 @@ export function Join() {
     setEstado('enviando')
     setError('')
 
-    if (!supabase) {
-      // Sin Supabase configurado: simulamos el envío para poder probar el diseño.
-      await new Promise((r) => setTimeout(r, 600))
+    try {
+      const { supabase } = await import('@/lib/supabase')
+      if (supabase) {
+        const { error } = await supabase.from('solicitudes').insert(registro)
+        if (error) throw error
+      }
       setEstado('ok')
       form.reset()
-      return
-    }
-
-    const { error: err } = await supabase.from('solicitudes').insert(registro)
-    if (err) {
+    } catch {
       setEstado('error')
       setError('No pudimos enviar tu registro. Inténtalo de nuevo en un momento.')
-    } else {
-      setEstado('ok')
-      form.reset()
     }
   }
 

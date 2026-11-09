@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Reveal, SectionTitle } from '@/components/Reveal'
 import { CATEGORIAS, EVENTOS_EJEMPLO } from '@/data/site'
-import { supabase, type Evento } from '@/lib/supabase'
+import type { Evento } from '@/lib/supabase'
+import { useSupabaseCercano } from '@/lib/useSupabaseCercano'
 
 function formatearFecha(iso: string) {
   const [y, m, d] = iso.split('-').map(Number)
@@ -12,6 +13,8 @@ function formatearFecha(iso: string) {
 }
 
 export function Events() {
+  const { seccion, servicios } = useSupabaseCercano()
+  const supabase = servicios?.supabase
   const [eventos, setEventos] = useState<Evento[]>(EVENTOS_EJEMPLO)
   const [ejemplo, setEjemplo] = useState(true)
 
@@ -30,10 +33,10 @@ export function Events() {
           setEjemplo(false)
         }
       })
-  }, [])
+  }, [supabase])
 
   return (
-    <section id="eventos" className="bg-jmc-soft px-5 py-24 text-jmc-noche">
+    <section ref={seccion} id="eventos" className="bg-jmc-soft px-5 py-24 text-jmc-noche">
       <div className="mx-auto max-w-6xl">
         <SectionTitle kicker="Calendario" title="Próximos eventos" subtitle="Apunta las fechas y no te pierdas ninguna." />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
