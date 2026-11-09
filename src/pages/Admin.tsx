@@ -180,7 +180,7 @@ function Panel({ session }: { session: Session }) {
       <h2 className="mb-4 text-2xl font-bold">Eventos ({eventos.length})</h2>
       <ul className="mb-10 space-y-3">
         {eventos.map((e) => (
-          <li key={e.id} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+          <li key={e.id} className="jmc-glass-card flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
             <div>
               <p className="font-semibold">{e.titulo}</p>
               <p className="text-sm text-white/50">
@@ -198,7 +198,7 @@ function Panel({ session }: { session: Session }) {
       <h2 className="mb-4 text-2xl font-bold">Solicitudes para unirse ({solicitudes.length})</h2>
       <ul className="space-y-3">
         {solicitudes.map((s) => (
-          <li key={s.id} className="flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+          <li key={s.id} className="jmc-glass-card flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
             <div>
               <p className="font-semibold">
                 {s.nombre} {s.edad ? <span className="font-normal text-white/50">· {s.edad} años</span> : null}

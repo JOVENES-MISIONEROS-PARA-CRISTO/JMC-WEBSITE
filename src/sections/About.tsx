@@ -37,7 +37,7 @@ export function About() {
         </div>
 
         <Reveal className="mt-16">
-          <div className="rounded-3xl border border-white/35 bg-white/40 p-8 backdrop-blur-md text-jmc-noche md:p-10">
+          <div className="jmc-glass-card rounded-3xl border border-white/35 bg-white/40 p-8 backdrop-blur-md text-jmc-noche md:p-10">
             <div className="grid items-center gap-8 md:grid-cols-[1fr_auto_auto]">
               <div>
                 <h3 className="text-2xl font-bold text-jmc-morado">Somos parte de la parroquia</h3>

@@ -59,7 +59,7 @@ export function AdminGallery() {
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-2xl font-bold">Fotos de la galería</h2>
-      <form onSubmit={publicar} className="grid gap-4 rounded-2xl border border-white/10 p-5">
+      <form onSubmit={publicar} className="jmc-glass-card grid gap-4 rounded-2xl border border-white/10 p-5">
         <div>
           <Label htmlFor="espacio">Foto que quieres actualizar</Label>
           <select disabled={ocupado} className="w-full rounded-2xl bg-jmc-noche p-3" id="espacio" name="espacio">

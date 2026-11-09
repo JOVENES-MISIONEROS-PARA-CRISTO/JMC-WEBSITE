@@ -17,9 +17,9 @@ const LEMAS = ['Fe', 'Amistad', 'Servicio']
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative flex min-h-svh items-center overflow-hidden">
+    <section id="inicio" className="relative overflow-hidden">
 
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-28 pt-28 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-28 lg:grid-cols-[1.15fr_0.85fr]">
         <motion.div variants={container} initial="hidden" animate="show">
           <motion.p
             variants={item}
@@ -77,7 +77,7 @@ export function Hero() {
       <a
         href="#nosotros"
         aria-label="Bajar a la siguiente sección"
-        className="absolute inset-x-0 bottom-6 mx-auto w-fit animate-bounce rounded-full p-2 text-jmc-morado focus-visible:outline-2 focus-visible:outline-jmc-morado"
+        className="jmc-glass-button absolute inset-x-0 bottom-6 mx-auto w-fit animate-bounce rounded-full p-2 text-jmc-morado focus-visible:outline-2 focus-visible:outline-jmc-morado"
       >
         <ChevronDown className="size-8" />
       </a>

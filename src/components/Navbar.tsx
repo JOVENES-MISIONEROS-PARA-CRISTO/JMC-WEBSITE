@@ -125,7 +125,7 @@ export function Navbar() {
           <img src="/logos/jmc_solo_icono.png" alt="" />
           <span>Jóvenes Misioneros para Cristo</span>
         </a>
-        <button ref={trigger} type="button" className="jmc-topbar-toggle" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} aria-controls="jmc-topbar-links" onClick={() => setOpen(!open)}>
+        <button ref={trigger} type="button" className="jmc-topbar-toggle jmc-glass-button" aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open} aria-controls="jmc-topbar-links" onClick={() => setOpen(!open)}>
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
         <nav id="jmc-topbar-links" aria-label="Principal" className="jmc-topbar-links" data-open={open}>

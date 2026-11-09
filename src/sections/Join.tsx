@@ -56,7 +56,7 @@ export function Join() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="rounded-3xl bg-jmc-noche/90 p-7 shadow-2xl backdrop-blur sm:p-9">
+          <div className="jmc-glass-card rounded-3xl bg-jmc-noche/90 p-7 shadow-2xl backdrop-blur sm:p-9">
             {estado === 'ok' ? (
               <div className="py-10 text-center" role="status">
                 <CheckCircle2 className="mx-auto size-16 text-pink-300" />
