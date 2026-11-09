@@ -5,6 +5,22 @@ import { prepararFoto } from '@/lib/prepararFoto'
 import { Button } from '@/components/ui/button'
 import { Input, Label } from '@/components/ui/input'
 
+const numero = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 })
+const porcentaje = new Intl.NumberFormat('es-MX', { style: 'percent', maximumFractionDigits: 1 })
+
+function peso(bytes: number) {
+  if (bytes < 1000) return `${bytes} B`
+  if (bytes < 1_000_000) return `${numero.format(bytes / 1000)} kB`
+  return `${numero.format(bytes / 1_000_000)} MB`
+}
+
+function resumen(original: number, publicado: number) {
+  const diferencia = original - publicado
+  const cambio = porcentaje.format(Math.abs(diferencia) / original)
+  const etiqueta = diferencia < 0 ? 'Aumento' : 'Ahorro'
+  return `Foto publicada. Original: ${peso(original)} · Publicada: ${peso(publicado)} · ${etiqueta}: ${cambio}`
+}
+
 export function AdminGallery() {
   const [ocupado, setOcupado] = useState(false)
   const [mensaje, setMensaje] = useState('')
@@ -32,7 +48,7 @@ export function AdminGallery() {
         return
       }
       form.reset()
-      setMensaje('Foto publicada en la galería.')
+      setMensaje(resumen(foto.size, imagen.size))
     } catch {
       setMensaje('No se pudo publicar la foto. Comprueba que la imagen se abre correctamente y vuelve a intentarlo.')
     } finally {
