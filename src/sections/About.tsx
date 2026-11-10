@@ -18,13 +18,13 @@ export function About() {
           subtitle="JMC nace dentro de la Parroquia del Señor de la Misericordia, en Ocotlán, para que los jóvenes encuentren un lugar donde crecer en la fe y en la amistad."
         />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {PILARES.map((p, i) => {
             const Icono = ICONOS[i]
             return (
               <Reveal key={p.titulo} delay={i * 0.1}>
                 <Card className="h-full border-white/35 bg-white/30 shadow-sm backdrop-blur-md">
-                  <CardContent className="p-8">
+                  <CardContent className="p-5 sm:p-8">
                     <div className="mb-5 flex size-14 items-center justify-center rounded-2xl bg-jmc-gradient text-white">
                       <Icono className="size-7" />
                     </div>
@@ -38,8 +38,8 @@ export function About() {
         </div>
 
         <Reveal className="mt-16">
-          <div className="jmc-glass-card rounded-3xl border border-white/35 bg-white/40 p-8 backdrop-blur-md text-jmc-noche md:p-10">
-            <div className="grid items-center gap-8 md:grid-cols-[1fr_auto_auto]">
+          <div className="jmc-glass-card rounded-3xl border border-white/35 bg-white/40 p-5 sm:p-8 backdrop-blur-md text-jmc-noche md:p-10">
+            <div className="grid items-center gap-5 sm:p-8 lg:grid-cols-[1fr_auto_auto]">
               <div>
                 <h3 className="text-2xl font-bold text-jmc-morado">Somos parte de la parroquia</h3>
                 <p className="mt-2 text-jmc-noche/75">
@@ -49,9 +49,9 @@ export function About() {
                   Conoce el sitio de la parroquia →
                 </a>
               </div>
-              <img src="/logos/logo%20nuevo%20srdlm.png" alt="Logo del Señor de la Misericordia, Parroquia de Ocotlán" className="h-28 w-auto" />
+              <img src="/logos/logo%20nuevo%20srdlm.png" alt="Logo del Señor de la Misericordia, Parroquia de Ocotlán" className="h-28 max-w-full w-auto object-contain" />
               <div className="flex h-28 items-center rounded-2xl bg-jmc-noche px-4">
-                <img src="/logos/EAS%20BLANCO.png" alt="Logo Ea's, Señor de la Misericordia Ocotlán" className="h-20 w-auto" />
+                <img src="/logos/EAS%20BLANCO.png" alt="Logo Ea's, Señor de la Misericordia Ocotlán" className="h-20 max-w-full w-auto object-contain" />
               </div>
             </div>
           </div>

@@ -320,3 +320,62 @@
   .section-menu-header:not([hidden]) { animation: menu-appear 200ms ease-out; }
   @keyframes menu-appear { from { opacity: 0; translate: 0 5px; } }
 }
+
+/* Fit dialogs to the visible viewport, including landscape and device safe areas. */
+.album-dialog, .photo-viewer {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(calc(100vw - 24px), 64rem);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px;
+  background: #f2eef0;
+  padding: 24px;
+}
+.album-dialog { z-index: 101; }
+.photo-viewer {
+  z-index: 111;
+  width: min(calc(100vw - 24px), 90rem);
+  height: min(94dvh, 64rem);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.photo-viewer-controls {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.photo-viewer-controls button { touch-action: manipulation; }
+.jmc-home footer li, .jmc-home footer a { overflow-wrap: anywhere; }
+@media (max-width: 1023px) {
+  .section-menu-header { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .jmc-home { --section-padding: 1rem; --frame-margin: 20px; }
+}
+@media (max-width: 639px) {
+  .jmc-home { --frame-margin: 16px; --section-padding: 0px; }
+  .section-menu-header { grid-template-columns: 1fr auto; row-gap: 0; }
+  .section-menu-header nav { grid-row: 2; grid-column: 1 / -1; }
+  .jmc-content > section, .jmc-home footer { scroll-margin-top: 112px; }
+  .album-dialog { padding: 16px; }
+  .photo-viewer {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  .photo-viewer-controls { gap: 8px; }
+}
+@media (max-width: 379px) {
+  .photo-download { flex-basis: 100%; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .photo-viewer { height: 100dvh; max-height: 100dvh; gap: 4px; padding-block: 6px; }
+}

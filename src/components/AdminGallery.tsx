@@ -1,3 +1,4 @@
+import { AdminAlbumes } from './AdminAlbumes'
 import { useState, type FormEvent } from 'react'
 import { GALERIA } from '@/data/site'
 import { galeriaStorage } from '@/lib/supabase'
@@ -73,6 +74,7 @@ export function AdminGallery() {
         <Button disabled={ocupado} type="submit">Publicar foto</Button>
         <p role="status">{mensaje}</p>
       </form>
+      <AdminAlbumes />
     </section>
   )
 }

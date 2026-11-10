@@ -8,7 +8,7 @@ export function Footer() {
   const wa = SITIO.whatsapp ? `https://wa.me/${SITIO.whatsapp}` : ''
   return (
     <footer id="contacto" className="bg-jmc-noche px-5 pb-8 pt-16">
-      <div className="mx-auto grid section-layout gap-10 md:grid-cols-3">
+      <div className="mx-auto grid section-layout gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <img src="/logos/jmc_solo_icono.png" alt="JMC · Jóvenes Misioneros para Cristo" className="h-16 w-auto" />
           <p className="mt-4 max-w-xs text-white/60">Un grupo de jóvenes de la {SITIO.parroquia}, caminando juntos con Cristo.</p>

@@ -1,3 +1,4 @@
+import { AlbumesCategoria } from '@/components/AlbumesCategoria'
 import { Camera } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useSupabaseCercano } from '@/lib/useSupabaseCercano'
@@ -32,9 +33,9 @@ export function Gallery() {
     <section ref={seccion} id="galeria" className="bg-jmc-soft-reverse px-5 py-24 text-jmc-noche">
       <div className="mx-auto section-layout">
         <SectionTitle centered kicker="Recuerdos" title="Galería" subtitle="Momentos que nos han marcado en el camino." />
-        <div className="grid auto-rows-[10rem] grid-cols-2 gap-4 md:grid-cols-3 md:auto-rows-[13rem]">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {fotos.map((f, i) => (
-            <Reveal key={f.titulo} delay={(i % 3) * 0.08} className={cn(f.alto === 'alto' && 'row-span-2')}>
+            <Reveal key={f.titulo} delay={(i % 2) * 0.08} className="aspect-video">
               <figure
                 className={cn(
                   'group relative size-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br',
@@ -51,6 +52,7 @@ export function Gallery() {
                 <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 font-semibold text-white">
                   {f.titulo}
                 </figcaption>
+                <AlbumesCategoria categoria={f} bucket={bucket} />
               </figure>
             </Reveal>
           ))}
