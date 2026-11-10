@@ -1,8 +1,8 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { SITIO } from '@/data/site'
+import { SECCIONES, SITIO } from '@/data/site'
 
 const container = {
   hidden: {},
@@ -13,14 +13,16 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' as const } },
 }
 
+
+
 const LEMAS = ['Fe', 'Amistad', 'Servicio']
 
 export function Hero() {
+  const reduceMotion = useReducedMotion()
   return (
     <section id="inicio" className="relative overflow-hidden">
-
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-28 lg:grid-cols-[1.15fr_0.85fr]">
-        <motion.div variants={container} initial="hidden" animate="show">
+      <div className="hero-layout relative mx-auto grid w-full items-center gap-10 px-6 lg:grid-cols-2">
+        <motion.div variants={container} initial={reduceMotion ? false : "hidden"} animate="show">
           <motion.p
             variants={item}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-jmc-morado/15 bg-white/20 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] backdrop-blur sm:text-sm"
@@ -50,9 +52,9 @@ export function Hero() {
             </Button>
           </motion.div>
 
-          <motion.ul variants={item} className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-jmc-morado">
+          <motion.ul variants={item} className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold uppercase tracking-[0.2em] text-jmc-morado">
             {LEMAS.map((lema, i) => (
-              <li key={lema} className="flex items-center gap-6">
+              <li key={lema} className="flex items-center gap-4">
                 {lema}
                 {i < LEMAS.length - 1 && <span className="size-1 rounded-full bg-jmc-morado/30" aria-hidden="true" />}
               </li>
@@ -61,16 +63,29 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.25, duration: 0.9, ease: 'easeOut' }}
-          className="relative flex items-center justify-center"
+          className="hero-menu"
         >
+          <div className="hero-radiance" aria-hidden="true">
+            <i /><i /><i /><i /><i /><i />
+          </div>
           <img
             src="/logos/jmc_solo_icono.png"
             alt="Escudo de JMC: torre con cruz, corona de espinas y tres jóvenes tomados de la mano"
-            className="animate-float relative size-60 object-contain  sm:size-72 lg:size-80"
+            className="hero-menu-logo"
           />
+          <nav aria-label="Secciones de la página">
+            {SECCIONES.map(([id, label], index) => (
+              <a key={id} href={`#${id}`} className="hero-menu-link">
+                <span style={{ animationDelay: `${index * -0.48}s` }}>
+                  <img src={`/icons/${id}.svg`} alt="" width="16" height="16" />
+                  {label}
+                </span>
+              </a>
+            ))}
+          </nav>
         </motion.div>
       </div>
 

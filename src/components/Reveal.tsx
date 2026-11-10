@@ -17,7 +17,7 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
 
 export function SectionTitle({ kicker, title, subtitle }: { kicker: string; title: string; subtitle?: string }) {
   return (
-    <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+    <Reveal className="mb-12 max-w-2xl text-left">
       <p className="mb-2 text-sm font-semibold uppercase tracking-[0.25em] text-jmc-morado">{kicker}</p>
       <h2 className="text-3xl font-extrabold sm:text-4xl md:text-5xl">{title}</h2>
       {subtitle && <p className="mt-4 text-lg text-current/70">{subtitle}</p>}

@@ -15,7 +15,7 @@ const ICONOS: Record<Actividad['icono'], LucideIcon> = {
 export function Activities() {
   return (
     <section id="actividades" className="relative bg-jmc-soft-reverse px-5 py-24 text-jmc-noche">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto section-layout">
         <SectionTitle kicker="Qué hacemos" title="Actividades del grupo" subtitle="Fe, aventura y convivencia: así vivimos el año en JMC." />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
           {ACTIVIDADES.map((a, i) => {

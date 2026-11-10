@@ -42,7 +42,7 @@ export function Join() {
 
   return (
     <section id="unete" className="jmc-join-fade relative overflow-hidden bg-jmc-gradient px-5 pb-56 pt-64">
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+      <div className="relative mx-auto grid section-layout items-center gap-12 lg:grid-cols-2">
         <Reveal>
           <p className="mb-2 text-sm font-semibold uppercase tracking-[0.25em] text-pink-200">Únete</p>
           <h2 className="text-4xl font-extrabold sm:text-5xl">¿Quieres ser parte de JMC?</h2>

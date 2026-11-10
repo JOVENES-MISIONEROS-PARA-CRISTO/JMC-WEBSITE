@@ -30,7 +30,7 @@ export function Gallery() {
   const fotos = GALERIA.map(f => ({ ...f, src: urls[f.id] ?? f.src }))
   return (
     <section ref={seccion} id="galeria" className="bg-jmc-soft-reverse px-5 py-24 text-jmc-noche">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto section-layout">
         <SectionTitle kicker="Recuerdos" title="Galería" subtitle="Momentos que nos han marcado en el camino." />
         <div className="grid auto-rows-[10rem] grid-cols-2 gap-4 md:grid-cols-3 md:auto-rows-[13rem]">
           {fotos.map((f, i) => (

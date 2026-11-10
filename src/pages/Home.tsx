@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/Navbar'
+import { SectionMenu } from '@/components/SectionMenu'
 import { About } from '@/sections/About'
 import { Activities } from '@/sections/Activities'
 import { Events } from '@/sections/Events'
@@ -11,8 +11,7 @@ export default function Home() {
 
   return (
     <div className="jmc-home">
-      <Navbar />
-
+      <SectionMenu />
       <main className="jmc-content">
         <Hero />
         <About />

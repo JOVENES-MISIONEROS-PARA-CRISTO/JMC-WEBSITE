@@ -110,3 +110,12 @@ export const GALERIA: FotoGaleria[] = [
   { id: 'servicio', titulo: 'Servicio', alto: 'alto' },
   { id: 'nuestro-grupo', titulo: 'Nuestro grupo', alto: 'normal' },
 ]
+
+export const SECCIONES = [
+  ['nosotros', 'Nosotros'],
+  ['actividades', 'Actividades'],
+  ['eventos', 'Eventos'],
+  ['galeria', 'Galería'],
+  ['contacto', 'Contacto'],
+  ['unete', 'Únete'],
+] as const

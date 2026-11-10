@@ -10,7 +10,7 @@ const ICONOS = [Flame, Users, Heart]
 export function About() {
   return (
     <section id="nosotros" className="bg-jmc-soft px-5 py-24 text-jmc-noche">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto section-layout">
         <SectionTitle
           kicker="Quiénes somos"
           title="Un grupo de jóvenes con una misión"
