@@ -12,6 +12,7 @@ export function About() {
     <section id="nosotros" className="bg-jmc-soft px-5 py-24 text-jmc-noche">
       <div className="mx-auto section-layout">
         <SectionTitle
+          centered
           kicker="Quiénes somos"
           title="Un grupo de jóvenes con una misión"
           subtitle="JMC nace dentro de la Parroquia del Señor de la Misericordia, en Ocotlán, para que los jóvenes encuentren un lugar donde crecer en la fe y en la amistad."

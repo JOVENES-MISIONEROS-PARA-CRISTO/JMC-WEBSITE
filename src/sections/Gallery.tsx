@@ -31,7 +31,7 @@ export function Gallery() {
   return (
     <section ref={seccion} id="galeria" className="bg-jmc-soft-reverse px-5 py-24 text-jmc-noche">
       <div className="mx-auto section-layout">
-        <SectionTitle kicker="Recuerdos" title="Galería" subtitle="Momentos que nos han marcado en el camino." />
+        <SectionTitle centered kicker="Recuerdos" title="Galería" subtitle="Momentos que nos han marcado en el camino." />
         <div className="grid auto-rows-[10rem] grid-cols-2 gap-4 md:grid-cols-3 md:auto-rows-[13rem]">
           {fotos.map((f, i) => (
             <Reveal key={f.titulo} delay={(i % 3) * 0.08} className={cn(f.alto === 'alto' && 'row-span-2')}>

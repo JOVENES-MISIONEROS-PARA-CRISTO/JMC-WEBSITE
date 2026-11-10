@@ -105,7 +105,7 @@
 /* Portfolio-inspired layout, scoped to the public JMC page. */
 .jmc-home { --frame-margin: 32px; --section-padding: 1.5rem; background: linear-gradient(180deg, #eadde5 0%, #eee6eb 38%, #f2eef0 100%); color: var(--color-jmc-noche); }
 .jmc-content { width: calc(100% - 2 * var(--frame-margin)); margin-inline: auto; padding-bottom: 32px; }
-.jmc-content > section, .jmc-home footer { scroll-margin-top: 8px; }
+.jmc-content > section, .jmc-home footer { scroll-margin-top: 72px; }
 .jmc-content > section:not(#inicio):not(#unete) { background: transparent; padding: clamp(56px, 6vw, 88px) 0; border-top: 1px solid #ffffff26; }
 .jmc-content :is(a, button):focus-visible { outline: 3px solid var(--color-jmc-rosa); outline-offset: 4px; }
 .jmc-content :is(a,button)[class*="rounded-full"] { border-radius: 8px; }
@@ -298,25 +298,25 @@
 .hero-layout, .section-layout { padding-inline: var(--section-padding); }
 .jmc-home footer { padding-inline: var(--frame-margin); }
 
-.section-menu-trigger,
-.section-menu-panel {
+.section-menu-header {
   background: linear-gradient(to bottom,
     color-mix(in srgb, var(--color-jmc-rosa) 3%, white),
     color-mix(in srgb, var(--color-jmc-rosa) 25%, white));
+  grid-template-columns: auto minmax(0, 1fr) auto;
 }
-.section-menu-trigger {
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  left: max(1rem, env(safe-area-inset-left));
-}
-.section-menu-panel a[aria-current="location"] {
+.section-menu-header nav a[aria-current="location"]::after {
+  content: '';
+  position: absolute;
+  inset: auto 0.25rem 3px;
+  height: 2px;
   background: var(--color-jmc-morado);
-  color: white;
 }
-.section-menu-panel a[aria-current="location"] img { filter: brightness(0) invert(1); }
-.section-menu-trigger:not([hidden]) { display: inline-flex; }
+.section-menu-header:not([hidden]) { display: grid; }
+@media (min-width: 768px) {
+  .section-menu-header { grid-template-columns: 1fr auto 1fr; }
+  .section-menu-header > a:first-child { justify-self: start; }
+}
 @media (prefers-reduced-motion: no-preference) {
-  .section-menu-trigger:not([hidden]) { animation: menu-appear 200ms ease-out; }
-  .section-menu-panel[data-state="open"] { animation: menu-slide 240ms ease-out; }
+  .section-menu-header:not([hidden]) { animation: menu-appear 200ms ease-out; }
   @keyframes menu-appear { from { opacity: 0; translate: 0 5px; } }
-  @keyframes menu-slide { from { translate: -100% 0; } }
 }
