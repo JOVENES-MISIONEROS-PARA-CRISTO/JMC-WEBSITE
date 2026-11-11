@@ -58,6 +58,36 @@ export const ACTIVIDADES: Actividad[] = [
     texto: 'Cada año surgen nuevas actividades. ¡Ven y propón la próxima aventura!',
     icono: 'estrella',
   },
+  {
+    titulo: 'Adoración',
+    texto: 'Un momento de oración y encuentro con Jesús en el Santísimo Sacramento.',
+    icono: 'cruz',
+  },
+  {
+    titulo: 'Sábado de grupo',
+    texto: 'Nos reunimos para compartir la fe, convivir y fortalecer nuestra amistad.',
+    icono: 'musica',
+  },
+  {
+    titulo: 'Misiones',
+    texto: 'Compartimos la alegría del Evangelio y llevamos el amor de Cristo a los demás.',
+    icono: 'camino',
+  },
+  {
+    titulo: 'Campamentos',
+    texto: 'Vivimos momentos de aventura, oración y convivencia en comunidad.',
+    icono: 'montana',
+  },
+  {
+    titulo: 'Día del niño',
+    texto: 'Celebramos la alegría de la infancia con juegos y momentos para compartir.',
+    icono: 'estrella',
+  },
+  {
+    titulo: 'Apostolados',
+    texto: 'Ponemos nuestra fe en acción al servicio de los demás y de nuestra comunidad.',
+    icono: 'manos',
+  },
 ]
 
 export const PILARES = [
@@ -109,6 +139,12 @@ export const GALERIA: FotoGaleria[] = [
   { id: 'convivencias', titulo: 'Convivencias', alto: 'normal' },
   { id: 'servicio', titulo: 'Servicio', alto: 'alto' },
   { id: 'nuestro-grupo', titulo: 'Nuestro grupo', alto: 'normal' },
+  { id: 'adoracion', titulo: 'Adoración', alto: 'normal' },
+  { id: 'sabado-de-grupo', titulo: 'Sábado de grupo', alto: 'normal' },
+  { id: 'misiones', titulo: 'Misiones', alto: 'normal' },
+  { id: 'campamentos', titulo: 'Campamentos', alto: 'normal' },
+  { id: 'dia-del-nino', titulo: 'Día del niño', alto: 'normal' },
+  { id: 'apostolados', titulo: 'Apostolados', alto: 'normal' },
 ]
 
 export const SECCIONES = [
