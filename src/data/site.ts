@@ -29,42 +29,33 @@ export type Actividad = {
 
 export const ACTIVIDADES: Actividad[] = [
   {
-    titulo: 'Retiros espirituales',
+    titulo: 'Jornadas',
     texto: 'Días para detenernos, orar en comunidad y encontrarnos con Cristo lejos del ruido de todos los días.',
     icono: 'cruz',
   },
   {
-    titulo: 'Paseo al Cubilete',
+    titulo: 'Peregrinación al Cubilete',
     texto: 'Peregrinamos juntos al Cerro del Cubilete: camino, oración, convivencia y mucha alegría.',
     icono: 'montana',
   },
   {
-    titulo: 'Paseo a Talpa',
+    titulo: 'Peregrinación a Talpa',
     texto: 'Un viaje de fe y amistad al santuario de Talpa, compartiendo el camino como grupo.',
     icono: 'camino',
-  },
-  {
-    titulo: 'Servicio y misión',
-    texto: 'Salimos al encuentro de quien nos necesita: visitas, colectas y apoyo a la comunidad parroquial.',
-    icono: 'manos',
   },
   {
     titulo: 'Convivencias',
     texto: 'Convivios, dinámicas y momentos para fortalecer la amistad dentro del grupo.',
     icono: 'musica',
   },
-  {
-    titulo: 'Y mucho más…',
-    texto: 'Cada año surgen nuevas actividades. ¡Ven y propón la próxima aventura!',
-    icono: 'estrella',
-  },
+ 
   {
     titulo: 'Adoración',
     texto: 'Un momento de oración y encuentro con Jesús en el Santísimo Sacramento.',
     icono: 'cruz',
   },
   {
-    titulo: 'Sábado de grupo',
+    titulo: 'Sábado de Grupo',
     texto: 'Nos reunimos para compartir la fe, convivir y fortalecer nuestra amistad.',
     icono: 'musica',
   },
@@ -93,7 +84,7 @@ export const ACTIVIDADES: Actividad[] = [
 export const PILARES = [
   { titulo: 'Fe', texto: 'Crecemos en la amistad con Jesús a través de la oración y los sacramentos.' },
   { titulo: 'Comunidad', texto: 'Caminamos juntos: aquí nadie es un número, todos somos familia.' },
-  { titulo: 'Misión', texto: 'Llevamos el amor de Cristo a otros jóvenes y a nuestra parroquia.' },
+  { titulo: 'Misión', texto: 'Nuestra misión es evangelizar al joven por medio del joven.' },
 ]
 
 export const CATEGORIAS: Record<Evento['categoria'], string> = {

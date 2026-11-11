@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
+import { AdminDashboard } from '@/components/AdminDashboard'
+import '@/admin.css'
 import { AdminGallery } from '@/components/AdminGallery'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input, Label, Textarea } from '@/components/ui/input'
@@ -135,11 +137,10 @@ function Panel({ session }: { session: Session }) {
   }
 
   return (
-    <Shell onSalir={() => supabase?.auth.signOut()}>
-      <p className="mb-8 text-white/50">Sesión: {session.user.email}</p>
+    <AdminDashboard email={session.user.email ?? "JMC"} eventos={eventos.length} solicitudes={solicitudes.length}>
 
       <AdminGallery />
-      <h2 className="mb-4 text-2xl font-bold">Nuevo evento</h2>
+      <section id="admin-eventos"><h2 className="mb-4 text-2xl font-bold">Nuevo evento</h2>
       <Card className="mb-10">
         <CardContent>
           <form onSubmit={crear} className="grid gap-4 sm:grid-cols-2">
@@ -195,7 +196,7 @@ function Panel({ session }: { session: Session }) {
         {eventos.length === 0 && <li className="text-white/50">Aún no hay eventos.</li>}
       </ul>
 
-      <h2 className="mb-4 text-2xl font-bold">Solicitudes para unirse ({solicitudes.length})</h2>
+      </section><section id="admin-solicitudes"><h2 className="mb-4 text-2xl font-bold">Solicitudes para unirse ({solicitudes.length})</h2>
       <ul className="space-y-3">
         {solicitudes.map((s) => (
           <li key={s.id} className="jmc-glass-card flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
@@ -214,7 +215,7 @@ function Panel({ session }: { session: Session }) {
         ))}
         {solicitudes.length === 0 && <li className="text-white/50">Aún no hay solicitudes.</li>}
       </ul>
-    </Shell>
+    </section></AdminDashboard>
   )
 }
 
