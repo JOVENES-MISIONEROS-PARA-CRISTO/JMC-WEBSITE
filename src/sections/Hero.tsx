@@ -45,7 +45,7 @@ export function Hero() {
 
           <motion.div variants={item} className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg" className="hover:-translate-y-0.5">
-              <a href="#unete">Quiero unirme</a>
+              <a href="#nosotros">¿Quiénes somos?</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-jmc-morado/30 text-jmc-morado bg-transparent hover:-translate-y-0.5 hover:bg-jmc-morado/5">
               <a href="#actividades">Ver actividades</a>

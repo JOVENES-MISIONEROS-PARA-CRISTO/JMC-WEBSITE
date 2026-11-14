@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { SECCIONES } from '@/data/site'
 
-const headerSections = [['inicio', 'Inicio'], ...SECCIONES.filter(([id]) => id !== 'unete')] as const
+const headerSections = [['inicio', 'Inicio'], ...SECCIONES] as const
 
 export function SectionMenu() {
   const [visible, setVisible] = useState(false)
@@ -55,10 +55,6 @@ export function SectionMenu() {
           </a>
         ))}
       </nav>
-      <a href="#unete" aria-current={activeId === 'unete' ? 'location' : undefined}
-        className="inline-flex min-h-11 items-center justify-self-end gap-3 rounded-full border border-jmc-morado/25 bg-jmc-rosa/10 px-4 text-sm font-semibold hover:bg-jmc-rosa/20 sm:px-6">
-        Únete <span aria-hidden="true">↗</span>
-      </a>
     </header>
   )
 }

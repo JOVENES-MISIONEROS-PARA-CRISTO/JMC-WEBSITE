@@ -1,3 +1,5 @@
+import * as Dialog from '@radix-ui/react-dialog'
+import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { prepararFoto } from '@/lib/prepararFoto'
 import { galeriaStorage } from '@/lib/supabase'
@@ -6,7 +8,48 @@ import { GALERIA } from '@/data/site'
 import { Input, Label } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-function VistaPrevia({ foto }: { foto: File }) {
+function ImagenAmpliada({ foto }: { foto: File }) {
+  const [url, setUrl] = useState('')
+  const [error, setError] = useState(false)
+  useEffect(() => {
+    const objeto = URL.createObjectURL(foto)
+    setUrl(objeto)
+    return () => URL.revokeObjectURL(objeto)
+  }, [foto])
+
+  return <div className="grid h-[min(70dvh,calc(100dvh-11rem))] place-items-center rounded-lg bg-black/30">
+    {error && <p>No se pudo mostrar la foto.</p>}
+    {url && !error && <img src={url} alt={foto.name} onError={() => setError(true)} className="h-full min-h-0 w-full object-contain" />}
+  </div>
+}
+
+function VisorSeleccion({ fotos, inicial }: { fotos: File[]; inicial: number }) {
+  const [indice, setIndice] = useState(inicial)
+  const foto = fotos[indice]
+  const mover = (paso: number) => setIndice(actual => (actual + paso + fotos.length) % fotos.length)
+
+  return <Dialog.Content aria-describedby={undefined}
+    onKeyDown={evento => {
+      if (evento.key !== 'ArrowLeft' && evento.key !== 'ArrowRight') return
+      evento.preventDefault()
+      mover(evento.key === 'ArrowLeft' ? -1 : 1)
+    }}
+    className="fixed top-1/2 left-1/2 z-[101] w-[94vw] max-w-5xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/20 bg-jmc-noche p-4 text-white">
+    <div className="mb-3 flex items-center justify-between gap-3">
+      <Dialog.Title className="truncate font-semibold">{foto.name}</Dialog.Title>
+      <Dialog.Close type="button" className="min-h-11 shrink-0 rounded-lg border border-white/30 px-4">Cerrar</Dialog.Close>
+    </div>
+    <ImagenAmpliada key={indice} foto={foto} />
+    {fotos.length > 1 && <div className="mt-3 flex items-center justify-center gap-5">
+      <button type="button" aria-label="Foto anterior" onClick={() => mover(-1)} className="grid size-11 place-items-center rounded-full border border-white/30"><ChevronLeft /></button>
+      <span role="status">Foto {indice + 1} de {fotos.length}</span>
+      <button type="button" aria-label="Foto siguiente" onClick={() => mover(1)} className="grid size-11 place-items-center rounded-full border border-white/30"><ChevronRight /></button>
+    </div>}
+  </Dialog.Content>
+}
+
+function VistaPrevia({ fotos, indice }: { fotos: File[]; indice: number }) {
+  const foto = fotos[indice]
   const [url, setUrl] = useState('')
   const [error, setError] = useState(false)
 
@@ -18,7 +61,16 @@ function VistaPrevia({ foto }: { foto: File }) {
   }, [foto])
 
   return <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-lg bg-black/20">
-    {error ? <p className="p-3 text-center text-xs text-white/65">No se pudo mostrar la vista previa.</p> : url ? <img src={url} alt={`Vista previa de ${foto.name}`} className="h-full w-full object-contain" loading="lazy" onError={() => setError(true)} /> : null}
+    {error ? <p className="p-3 text-center text-xs text-white/65">No se pudo mostrar la vista previa.</p> : url ? <Dialog.Root>
+      <Dialog.Trigger type="button" aria-label={`Ampliar ${foto.name}`} className="relative h-full w-full cursor-zoom-in rounded-lg focus-visible:outline-2 focus-visible:-outline-offset-2">
+        <img src={url} alt="" className="h-full w-full object-contain" loading="lazy" onError={() => setError(true)} />
+        <span className="absolute right-2 bottom-2 rounded-md bg-black/70 p-1.5 text-white"><Maximize2 size={16} aria-hidden="true" /></span>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80" />
+        <VisorSeleccion fotos={fotos} inicial={indice} />
+      </Dialog.Portal>
+    </Dialog.Root> : null}
   </div>
 }
 
@@ -98,7 +150,7 @@ export function AdminAlbumes() {
       </div>
       <ul className="grid max-h-[32rem] grid-cols-2 gap-3 overflow-y-auto sm:grid-cols-3 lg:grid-cols-4" aria-label="Fotografías seleccionadas">
         {fotos.map((foto, indice) => <li key={`${foto.name}-${foto.size}-${foto.lastModified}`} className="min-w-0 space-y-2 rounded-xl border border-white/10 bg-white/5 p-3 text-sm">
-          <VistaPrevia foto={foto} />
+          <VistaPrevia fotos={fotos} indice={indice} />
           <p className="truncate" title={foto.name}>{foto.name}</p>
           <button type="button" disabled={ocupado} aria-label={`Quitar ${foto.name}`} onClick={() => setFotos(actuales => actuales.filter((_, i) => i !== indice))} className="shrink-0 text-pink-200 underline disabled:opacity-50">Quitar</button>
         </li>)}

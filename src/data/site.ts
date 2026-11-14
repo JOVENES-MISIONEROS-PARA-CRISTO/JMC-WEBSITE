@@ -16,8 +16,8 @@ export const SITIO = {
   reuniones: 'Día y hora por confirmar',
   lugarReuniones: 'Salón parroquial (por confirmar)',
   whatsapp: '', // ej. '523921234567' (código de país + número, sin + ni espacios)
-  instagram: '', // ej. 'https://instagram.com/jmc_ocotlan'
-  facebook: '',
+  instagram: 'https://www.instagram.com/jmcxto/',
+  facebook: 'https://www.facebook.com/JMXTO?locale=es_LA',
   correo: '',
 }
 
@@ -144,5 +144,4 @@ export const SECCIONES = [
   ['eventos', 'Eventos'],
   ['galeria', 'Galería'],
   ['contacto', 'Contacto'],
-  ['unete', 'Únete'],
 ] as const
